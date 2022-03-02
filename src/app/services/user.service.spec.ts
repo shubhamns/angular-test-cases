@@ -22,7 +22,7 @@ describe('UserService', () => {
   });
 
   describe('createUser', () => {
-    it('makes expected calls', () => {
+    xit('makes expected calls', () => {
       const httpTestingController = TestBed.inject(HttpTestingController);
       const userStub: User = <any>{};
       service.createUser(userStub).subscribe(res => {
@@ -36,7 +36,7 @@ describe('UserService', () => {
   });
 
   describe('getUsers', () => {
-    it('makes expected calls', () => {
+    xit('makes expected calls', () => {
       const httpTestingController = TestBed.inject(HttpTestingController);
       service.getUsers().subscribe(res => {
         expect(res).toEqual([]);
