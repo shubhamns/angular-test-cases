@@ -25,7 +25,7 @@ export class UpdateUserComponent implements OnInit {
     private userService: UserService
   ) {
     this.route.paramMap.subscribe((param: any) => {
-      this.userId = param.params.id;
+      this.userId = param.params?.id;
     });
   }
 
@@ -87,12 +87,12 @@ export class UpdateUserComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    if (this.userForm.invalid) {
+    if (this.userForm?.invalid) {
       return;
     }
     this.loading = true;
     this.userService
-      .updateUser(this.userId, this.userForm.value)
+      .updateUser(this.userId, this.userForm?.value)
       .pipe(first())
       .subscribe(
         (data) => {

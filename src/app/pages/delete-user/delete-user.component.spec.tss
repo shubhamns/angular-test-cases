@@ -8,7 +8,7 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { DeleteUserComponent } from './delete-user.component';
-import { UserService } from './../../services/user.service';
+import { UserService } from '../../services/user.service';
 
 describe('DeleteUserComponent', () => {
   let component: DeleteUserComponent;
