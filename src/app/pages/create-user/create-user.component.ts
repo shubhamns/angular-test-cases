@@ -68,12 +68,12 @@ export class CreateUserComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    if (this.userForm.invalid) {
+    if (this.userForm?.invalid) {
       return;
     }
     this.loading = true;
     this.userService
-      .createUser(this.userForm.value)
+      .createUser(this.userForm?.value)
       .pipe(first())
       .subscribe(
         (data) => {

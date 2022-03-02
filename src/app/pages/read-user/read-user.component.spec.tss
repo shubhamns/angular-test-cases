@@ -1,0 +1,79 @@
+import {
+  ComponentFixture,
+  TestBed,
+  async,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule } from '@angular/common/http';
+import {
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
+import { ReadUserComponent } from './read-user.component';
+import { UserService } from './../../services/user.service';
+import * as Rx from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { MatTableDataSource } from '@angular/material/table';
+
+describe('ReadUserComponent', () => {
+  let component: ReadUserComponent;
+  let fixture: ComponentFixture<ReadUserComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ReadUserComponent],
+      imports: [RouterTestingModule, HttpClientModule, MatDialogModule],
+      providers: [
+        UserService,
+        {
+          provide: MatDialogRef,
+          useValue: {},
+        },
+        {
+          provide: MAT_DIALOG_DATA,
+          useValue: {},
+        },
+      ],
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ReadUserComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should call getPostDetails and get response as empty array', fakeAsync(() => {
+    fixture = TestBed.createComponent(ReadUserComponent);
+    component = fixture.debugElement.componentInstance;
+    const service = fixture.debugElement.injector.get(UserService);
+    spyOn(service, 'getUsers').and.callFake(() => {
+      return Rx.of([]).pipe(delay(100));
+    });
+    component.loadUser();
+    tick(100);
+    expect(component.dataSource).toEqual(new MatTableDataSource(<any>[]));
+  }));
+
+  xit('should call getPostDetails and get response as array', fakeAsync(() => {
+    fixture = TestBed.createComponent(ReadUserComponent);
+    component = fixture.debugElement.componentInstance;
+    const service = fixture.debugElement.injector.get(UserService);
+    spyOn(service, 'getUsers').and.callFake(() => {
+      return Rx.of([{ postId: 100 }]).pipe(delay(2000));
+    });
+    component.loadUser();
+    tick(1000);
+    expect(component.isLoading).toEqual(true);
+    tick(1000);
+    expect(component.isLoading).toEqual(false);
+    expect(component.loadUser).toEqual([{ postId: 100 }]);
+  }));
+});
